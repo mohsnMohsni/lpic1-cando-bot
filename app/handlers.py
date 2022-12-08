@@ -1,4 +1,4 @@
-from .__main__ import app
+from .supplier import app
 
 
 @app.on_message()
