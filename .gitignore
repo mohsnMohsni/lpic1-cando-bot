@@ -5,3 +5,10 @@ __pycache__
 
 # virtualenv
 venv/
+
+# envs
+.env.development
+.env.production
+
+# sessions
+*.session

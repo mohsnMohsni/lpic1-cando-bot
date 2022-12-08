@@ -1,17 +1,19 @@
 # Standard imports
-import asyncio
+import os
 
 # Third-party imports.
+from dotenv import load_dotenv
 from pyrogram import Client
 
 
-API_ID = 5074998
-API_HASH = '604e8a4d125e567edad04bbf5eee2abc'
+load_dotenv(dotenv_path='envs/.env.development')
+load_dotenv(dotenv_path='envs/.env.production')
 
 
-async def main():
-    async with Client('my_account', api_id=API_ID, api_hash=API_HASH) as app:
-        await app.send_message('me', 'Greetings from **Pyrogram**!')
+API_ID = os.getenv('API_ID')
+API_HASH = os.getenv('API_HASH')
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
+app = Client('my_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-asyncio.run(main())
+app.run()
