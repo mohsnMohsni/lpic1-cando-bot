@@ -1,0 +1,7 @@
+# editor
+__pycache__
+.vscode/
+.idea/
+
+# virtualenv
+venv
