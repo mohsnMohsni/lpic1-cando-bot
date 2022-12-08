@@ -16,4 +16,10 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 app = Client('my_bot', api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+
+@app.on_message()
+async def test(client, message):
+    await message.reply('hello', quote=True)
+
+
 app.run()
