@@ -20,5 +20,4 @@ async def get_capture_link(client, message):
         document=capture.link,
         caption=capture.link,
         force_document=True,
-        quote=True,
     )
