@@ -27,9 +27,9 @@ async def add_capture_link(client, message):
 @app.on_message(filters_group & filters_command('capture'))
 async def get_capture_link(client, message):
     capture = CapturesVideo.filter_first(capture_number=message.command[1])
+    message_instance = await message.reply(messages.IS_SENDING)
     file_name = download_files_from_url(capture.link)
-    message_instance = await message.reply(messages.CAPTURE_LINK_APPEND)
-    await client.reply_document(
+    await message.reply_document(
         caption=capture.link,
         document=file_name,
         force_document=True,
