@@ -1,5 +1,7 @@
 # Standard imports
-import urllib.request
+import os
+from urllib.parse import urlparse
+from urllib.request import urlretrieve
 
 # Third-party imports.
 from pyrogram.filters import command as filters_command
@@ -18,10 +20,12 @@ async def add_capture_link(client, message):
 @app.on_message(filters_command('capture'))
 async def get_capture_link(client, message):
     capture = CapturesVideo.filter_first(capture_number=message.command[1])
-    downloaded_file = urllib.request.urlopen(capture.link)
+    file_name = os.path.basename(urlparse(capture.link).path)
+    urlretrieve(capture.link, file_name)
     await client.send_document(
         chat_id=message.chat.id,
-        document=downloaded_file.read(),
+        document=file_name,
         caption=capture.link,
         force_document=True,
     )
+    os.unlink(file_name)
