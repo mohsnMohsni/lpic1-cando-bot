@@ -12,3 +12,7 @@ venv/
 
 # sessions
 *.session
+
+# db
+*.sqlite3-journal
+*.sqlite3
