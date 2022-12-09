@@ -1,31 +1,39 @@
 # Standard imports
 import os
-from urllib.parse import urlparse
-from urllib.request import urlretrieve
 
 # Third-party imports.
-from pyrogram.filters import command as filters_command
+from validators import url as url_validator
+from pyrogram.filters import (
+    group as filters_group,
+    command as filters_command,
+    private as filters_private,
+)
 
+from .helpers import download_files_from_url
 from .supplier import app
 from .constants import messages
 from .models.tables import CapturesVideo
 
 
-@app.on_message(filters_command('add_capture'))
+@app.on_message(filters_private(), filters_command('add_capture'))
 async def add_capture_link(client, message):
     CapturesVideo.create_instance(capture_number=message.command[1], link=message.command[2])
     await message.reply(messages.CAPTURE_LINK_APPEND)
 
 
-@app.on_message(filters_command('capture'))
+@app.on_message(filters_group(), filters_command('capture'))
 async def get_capture_link(client, message):
+    if not url_validator(message.command[1]):
+        await message.reply(messages.NOT_VALID_URL)
+        return
     capture = CapturesVideo.filter_first(capture_number=message.command[1])
-    file_name = os.path.basename(urlparse(capture.link).path)
-    urlretrieve(capture.link, file_name)
-    await client.send_document(
-        chat_id=message.chat.id,
-        document=file_name,
+    file_name = download_files_from_url(capture.link)
+    message_instance = await message.reply(messages.CAPTURE_LINK_APPEND)
+    await client.reply_document(
         caption=capture.link,
+        document=file_name,
         force_document=True,
+        quote=True,
     )
+    await message_instance.delete()
     os.unlink(file_name)
