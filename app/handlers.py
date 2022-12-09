@@ -15,4 +15,4 @@ async def add_capture_link(client, message):
 @app.on_message(filters_command('capture'))
 async def get_capture_link(client, message):
     capture = CapturesVideo.filter_first(capture_number=message.command[1])
-    await message.reply(capture.link, quote=True)
+    await message.reply_document(capture.link, quote=True)
