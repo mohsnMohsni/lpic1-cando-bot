@@ -15,13 +15,13 @@ from .constants import messages
 from .models.tables import CapturesVideo
 
 
-@app.on_message(filters_private, filters_command('add_capture'))
+@app.on_message(filters_private & filters_command('add_capture'))
 async def add_capture_link(client, message):
     CapturesVideo.create_instance(capture_number=message.command[1], link=message.command[2])
     await message.reply(messages.CAPTURE_LINK_APPEND)
 
 
-@app.on_message(filters_group, filters_command('capture'))
+@app.on_message(filters_group & filters_command('capture'))
 async def get_capture_link(client, message):
     if not url_validator(message.command[1]):
         await message.reply(messages.NOT_VALID_URL)
