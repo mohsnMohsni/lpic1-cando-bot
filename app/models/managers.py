@@ -20,4 +20,4 @@ class BaseManager:
 
     @classmethod
     def filter_first(cls, **kwargs):
-        return session.query(cls).filter(**kwargs).first()
+        return session.query(cls).filter_by(**kwargs).first()
