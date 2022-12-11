@@ -5,6 +5,7 @@ from typing import Callable
 from pyrogram.types import Message
 from pyrogram.client import Client
 
+# Local imports with absolute path.
 from .constants import messages
 
 

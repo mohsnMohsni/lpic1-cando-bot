@@ -2,6 +2,7 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import declarative_base
 
+# Local imports with absolute path.
 from .configs import apply_migration
 from .managers import BaseManager
 
