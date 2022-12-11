@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  bot:
+  telegram_bot:
     build: .
     environment:
       - API_ID=${API_ID}
