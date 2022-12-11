@@ -20,6 +20,7 @@ from .validators.decorators import (
     test_health,
     command_validator,
     command_length_validator,
+    retrieve_instance_and_instance_validator,
 )
 
 
@@ -39,12 +40,12 @@ async def add_capture_link(client: Client, message: Message) -> None:
 
 @app.on_message(filters_group & filters_command('capture'))
 @command_length_validator(2)
-async def get_capture_link(client: Client, message: Message) -> None:
-    capture: CapturesVideo = CapturesVideo.filter_first(capture_number=message.command[1])
+@retrieve_instance_and_instance_validator(CapturesVideo, 'capture_number', 1)
+async def get_capture_link(client: Client, message: Message, model_instance: CapturesVideo) -> None:
     message_instance: Message = await message.reply(messages.IS_SENDING)
-    file_name: str = download_files_from_url(capture.link)
+    file_name: str = download_files_from_url(model_instance.link)
     await message.reply_document(
-        caption=capture.link,
+        caption=model_instance.link,
         document=file_name,
         force_document=True,
         quote=True,

@@ -44,3 +44,17 @@ def command_validator(command_index: int, validator: Callable, err_message: str)
         return wrapper
 
     return command_validator_decorator
+
+
+def retrieve_instance_and_instance_validator(model_class: object, key: str, value_index: int) -> Callable:
+    def retrieve_instance_and_instance_validator_decorator(func: Callable) -> Callable:
+        async def wrapper(client: Client, message: Message, *args, **kwargs) -> None:
+            model_instance: model_class = model_class.filter_first(**{key: message.command[value_index]})
+            if not model_instance:
+                await message.reply(messages.NO_OBJECT_FOUND)
+                return
+            await func(client, message, model_instance=model_instance, *args, **kwargs)
+
+        return wrapper
+
+    return retrieve_instance_and_instance_validator_decorator
