@@ -7,17 +7,17 @@ from pyrogram.types import Message
 from .constants import messages
 
 
-def validate_arguments_count(valid_parameter_length: int) -> Callable:
-    def validate_arguments_count_decorator(func: Callable) -> Callable:
+def command_count_validator(valid_parameter_length: int) -> Callable:
+    def command_count_validator_decorator(func: Callable) -> Callable:
         async def wrapper(message: Message, *args, **kwargs) -> None:
             if len(message.command) != valid_parameter_length:
                 await message.reply(messages.PARAMETERS_NOT_VALID)
                 return
-            func()
+            await func()
 
         return wrapper
 
-    return validate_arguments_count_decorator
+    return command_count_validator_decorator
 
 
 def command_validator(command_index: int, validator: Callable, err_message: str) -> Callable:
@@ -26,7 +26,7 @@ def command_validator(command_index: int, validator: Callable, err_message: str)
             if not validator(message.command[command_index]):
                 await message.reply(err_message)
                 return
-            func()
+            await func()
 
         return wrapper
 

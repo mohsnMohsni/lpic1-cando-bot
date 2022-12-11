@@ -11,7 +11,7 @@ from pyrogram.filters import (
 )
 from pyrogram.types.messages_and_media import Message
 
-from .decorators import validate_arguments_count, command_validator
+from .decorators import command_count_validator, command_validator
 from .helpers import download_files_from_url
 from .models.tables import CapturesVideo
 from .constants import messages
@@ -24,7 +24,7 @@ async def test_health(client: Client, message: Message) -> None:
 
 
 @app.on_message(filters_private & filters_command('add_capture'))
-@validate_arguments_count(3)
+@command_count_validator(3)
 @command_validator(2, url_validator, messages.NOT_VALID_URL)
 async def add_capture_link(client: Client, message: Message) -> None:
     CapturesVideo.create_instance(capture_number=message.command[1], link=message.command[2])
@@ -32,7 +32,7 @@ async def add_capture_link(client: Client, message: Message) -> None:
 
 
 @app.on_message(filters_group & filters_command('capture'))
-@validate_arguments_count(2)
+@command_count_validator(2)
 async def get_capture_link(client: Client, message: Message) -> None:
     capture: CapturesVideo = CapturesVideo.filter_first(capture_number=message.command[1])
     message_instance: Message = await message.reply(messages.IS_SENDING)
