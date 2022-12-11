@@ -11,14 +11,15 @@ from pyrogram.filters import (
 )
 from pyrogram.types.messages_and_media import Message
 
-from .decorators import command_length_validator, command_validator
 from .helpers import download_files_from_url
-from .models.tables import CapturesVideo
-from .constants import messages
 from .supplier import app
+from .constants import messages
+from .decorators import test_health, command_validator, command_length_validator
+from .models.tables import CapturesVideo
 
 
 @app.on_message(filters_private & filters_command('test_health'))
+@test_health()
 async def test_health(client: Client, message: Message) -> None:
     await message.reply(messages.HEALTH_PASS)
 
