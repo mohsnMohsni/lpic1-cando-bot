@@ -17,6 +17,11 @@ from .constants import messages
 from .models.tables import CapturesVideo
 
 
+@app.on_message(filters_private & filters_command('test_health'))
+async def test_health(client: Client, message: Message) -> None:
+    await message.reply(messages.HEALTH_PASS)
+
+
 @app.on_message(filters_private & filters_command('add_capture'))
 async def add_capture_link(client: Client, message: Message) -> None:
     if not url_validator(message.command[2]):
