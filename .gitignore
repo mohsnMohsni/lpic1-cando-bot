@@ -16,3 +16,6 @@ venv/
 # db
 *.sqlite3-journal
 *.sqlite3
+
+# sandbox files
+sandbox.py
