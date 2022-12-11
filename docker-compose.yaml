@@ -8,4 +8,4 @@ services:
       - API_HASH=${API_HASH}
       - BOT_TOKEN=${BOT_TOKEN}
     volumes:
-      - "default.sqlite3:app/default.sqlite3"
+      - "./default.sqlite3:app/default.sqlite3"
