@@ -14,8 +14,12 @@ from pyrogram.types.messages_and_media import Message
 from .helpers import download_files_from_url
 from .supplier import app
 from .constants import messages
-from .decorators import test_health, command_validator, command_length_validator
 from .models.tables import CapturesVideo
+from .validators.decorators import (
+    test_health,
+    command_validator,
+    command_length_validator,
+)
 
 
 @app.on_message(filters_private & filters_command('test_health'))
