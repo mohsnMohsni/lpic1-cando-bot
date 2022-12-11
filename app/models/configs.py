@@ -10,5 +10,5 @@ default_engine = create_engine('sqlite:///%s' % DB_FILE, echo=True)
 default_session = sessionmaker(bind=default_engine)
 
 
-def apply_migration(schema):
+def apply_migration(schema) -> None:
     schema.metadata.create_all(default_engine)
